@@ -32,10 +32,4 @@ public class ContribuyenteDAOImpl implements ContribuyenteDAO {
 	public void insert(Contribuyente contribuyente) throws DataAccessException {
 		em.persist(contribuyente);
 	}
-
-	@Override
-	@Transactional
-	public void update(Contribuyente contribuyente) throws DataAccessException {
-		em.merge(contribuyente);
-	}
 }

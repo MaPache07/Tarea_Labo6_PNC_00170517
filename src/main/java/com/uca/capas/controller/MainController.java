@@ -19,14 +19,16 @@ import com.uca.capas.dao.ContribuyenteDAO;
 import com.uca.capas.dao.ImportanciaDAO;
 import com.uca.capas.domain.Contribuyente;
 import com.uca.capas.domain.Importancia;
+import com.uca.capas.service.ContribuyenteService;
+import com.uca.capas.service.ImportanciaService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	private ImportanciaDAO impDao;
+	private ImportanciaService impS;
 	@Autowired
-	private ContribuyenteDAO conDao;
+	private ContribuyenteService conS;
 	
 	@RequestMapping("/inicio")
 	public ModelAndView initMain() {
@@ -34,7 +36,7 @@ public class MainController {
 		mav.setViewName("index");
 		List<Importancia> imps = null;
 		try {
-			imps = impDao.findAll();
+			imps = impS.findAll();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -49,7 +51,7 @@ public class MainController {
 		mav.setViewName("index");
 		List<Importancia> imps = null;
 		try {
-			imps = impDao.findAll();
+			imps = impS.findAll();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -66,7 +68,7 @@ public class MainController {
 			contribuyente.setFecha(date);
 			mav.addObject("contribuyente", new Contribuyente());
 			try {
-				conDao.insert(contribuyente);
+				conS.insert(contribuyente);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -79,7 +81,7 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		List<Contribuyente> contribuyentes = null;
 		try {
-			contribuyentes = conDao.findAll();
+			contribuyentes = conS.findAll();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -88,44 +90,4 @@ public class MainController {
 		return mav;
 	}
 	
-	@RequestMapping("/editar")
-	public ModelAndView editar(@ModelAttribute Contribuyente contribuyente) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("editar");
-		List<Importancia> imps = null;
-		try {
-			imps = impDao.findAll();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		mav.addObject("importancias", imps);
-		mav.addObject("contribuyente", contribuyente);
-		return mav;
-	}
-	
-	@RequestMapping("/listado2")
-	public ModelAndView update(@Valid @ModelAttribute Contribuyente contribuyente, BindingResult result) {
-		ModelAndView mav = new ModelAndView();
-		if(!result.hasErrors()) {
-			Calendar c = Calendar.getInstance();
-			String fecha = Integer.toString(c.get(Calendar.DATE)) + "/" + Integer.toString(c.get(Calendar.MONTH)+1) + "/" + Integer.toString(c.get(Calendar.YEAR));
-			Date date = new Date();
-			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			} 
-			contribuyente.setFecha(date);
-			try {
-				conDao.insert(contribuyente);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			mav.setViewName("listado");
-		}
-		else {
-			mav.setViewName("editar");
-		}
-		return mav;
-	}
 }

@@ -1,5 +1,8 @@
 package com.uca.capas.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -104,8 +107,14 @@ public class Contribuyente {
 		this.nit = nit;
 	}
 
-	public Date getFecha() {
-		return fecha;
+	public String getFecha() throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String newF = fecha.toString().substring(0, 10);
+		Date date = df.parse(newF);
+		df.applyPattern("dd/MM/yyyy");
+		String newDateS = df.format(date);
+		
+		return newDateS;
 	}
 
 	public void setFecha(Date fecha) {
