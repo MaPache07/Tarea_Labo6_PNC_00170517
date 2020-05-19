@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Contribuyente</title>
+</head>
+<body>
+	<h1 class="bg-dark">Editar Contribuyente</h1>
+	<form th:action="@{/listado2}" th:object="${contribuyente}" method="post">
+		<div class="form-group">
+			<div class="sec">
+				<label class="text">Importancia: </label>
+				<select class="custom-select" id="inputGroupSelect02" th:field="*{importancia.cImportancia}">
+					<th:block th:each="importancia, row: ${importancias}">
+					<option th:value="${importancia.cImportancia}" th:text="${importancia.importancia}"></option>
+				</select>
+			</div>
+			<div class="sec">
+				<label class="text">Nombre: </label>
+				<input type="text" th:field="*{nombre}" class="form-control"/>
+				<span class="text" th:errors="*{nombre}" style="color: #FF0000"></span><br>
+			</div>
+			<div class="sec">
+				<label class="text">Apellido: </label>
+				<input type="text" th:field="*{apellido}" class="form-control"/>
+				<span class="text" th:errors="*{apellido}" style="color: #FF0000"></span><br>
+			</div>
+			<div class="sec">
+				<label class="text">NIT: </label>
+				<input type="text" th:field="*{nit}" class="form-control"/>
+				<span class="text" th:errors="*{nit}" style="color: #FF0000"></span><br>
+			</div>
+			<input class="btn btn-primary" type="submit" value="Agregar Contribuyente"/>
+		</div>
+	</form>
+	<form class="form-group" th:action="@{/listado}" method="post"><input class="btn btn-primary" type="submit" value="Ver Contribuyentes"/></form>
+</body>
+</html>
